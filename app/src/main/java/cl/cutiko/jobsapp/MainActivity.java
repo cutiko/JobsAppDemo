@@ -16,7 +16,7 @@ import com.firebase.jobdispatcher.Trigger;
 
 import cl.cutiko.jobsapp.geo.GeoJob;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity /*implements OnFailureListener, OnSuccessListener<LocationSettingsResponse>*/ {
 
     private static final int GEO_RC = 45325;
 
@@ -33,7 +33,52 @@ public class MainActivity extends AppCompatActivity {
             requestPermissions(permissions, GEO_RC);
         }
 
+        //TODO handle user some how turn on the gps, or maybe not
+        /*LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(mLocationRequest);
+        SettingsClient client = LocationServices.getSettingsClient(this);
+        Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
+        task.addOnFailureListener(this, this);
+        task.addOnSuccessListener(this, this);*/
+        //los this en el codigo de arriba son interfaces que hay que implementar
+
+
     }
+
+    /*@Override
+    public void onFailure(@NonNull Exception e) {
+        int statusCode = ((ApiException) e).getStatusCode();
+        final String tag = "NO_LOCATION";
+        switch (statusCode) {
+            case CommonStatusCodes.RESOLUTION_REQUIRED:
+                try {
+                    ResolvableApiException resolvable = (ResolvableApiException) e;
+                    resolvable.startResolutionForResult(this, REQUEST_CHECK_SETTINGS);
+                } catch (IntentSender.SendIntentException sendEx) {
+                    Log.d(tag, "NOT RESOLVABLE", sendEx.fillInStackTrace());
+                    locationObtained(DEFAULT_LATITUDE, DEFAULT_LONGITUDE);
+                }
+                break;
+            case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                Log.d(tag, "NOTHING TO DO", e.fillInStackTrace());
+                locationObtained(DEFAULT_LATITUDE, DEFAULT_LONGITUDE);
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (REQUEST_CHECK_SETTINGS == requestCode) {
+            if (RESULT_OK == resultCode) {
+                //echa a correr el job te arreglaron la cosa
+            }
+        }
+    }
+
+    @Override
+    public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+        EL USUARIO tiene gps
+    }*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

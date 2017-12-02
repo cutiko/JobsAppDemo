@@ -21,10 +21,13 @@ public class GeoJob extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters job) {
+        /*WARNING THERE IS NO SECURITY USER ACTUALLY TURNED ON THE GPS*/
         Log.d("GEOJOB", "start");
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(1);
         mLocationRequest.setFastestInterval(1);
+        //READ ABOUT THIS CONSTANTS https://developer.android.com/training/location/change-location-settings.html
+        //ALSO HERE https://developers.google.com/android/reference/com/google/android/gms/location/LocationRequest.html#inherited-method-summary
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
         mLocationRequest.setNumUpdates(1);
         Log.d("LOCATION", "getting");
@@ -38,6 +41,7 @@ public class GeoJob extends JobService {
                     Log.d("LOCATION", "result");
                     //TODO location obtained get firebase data
                     GeoNotification.notify(GeoJob.this, location.getLatitude(), location.getLongitude());
+                    //you could start an intent service to do the firebase work
                 } else {
                     GeoNotification.notify(GeoJob.this, 0, 0);
                 }
